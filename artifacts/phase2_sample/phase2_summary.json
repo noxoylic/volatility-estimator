@@ -1,0 +1,21 @@
+{
+  "counts": {
+    "conditioned": 5,
+    "filtered": 5
+  },
+  "noise_coefficients": [
+    0.0016130210417426608,
+    2.5808336665619838e-06,
+    -0.0019905025817301305,
+    0.0,
+    0.0
+  ],
+  "diagnostics": {
+    "ljung_box_q": 0.0,
+    "ljung_box_pvalue": 1.0,
+    "innovation_mean": 0.029761506354617405,
+    "innovation_std": 0.03582066670822529,
+    "abs_innovation_median": 0.040005334613699206,
+    "pass_whiteness": true
+  }
+}

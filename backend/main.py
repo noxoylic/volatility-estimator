@@ -14,8 +14,6 @@ import signal
 import sys
 from datetime import datetime, timezone
 
-from backend.fetchers.polymarket import PolymarketFetcher
-from backend.fetchers.kalshi import KalshiFetcher
 from backend.database.interface import DatabaseInterface, CSVFallback
 
 
@@ -32,6 +30,13 @@ signal.signal(signal.SIGINT, _handle_sigint)
 
 
 def poll_polymarket(token_id: str, interval: float, storage):
+    try:
+        from backend.fetchers.polymarket import PolymarketFetcher
+    except ImportError as exc:
+        raise RuntimeError(
+            "Polymarket fetcher is missing. Add backend/fetchers/polymarket.py"
+        ) from exc
+
     fetcher = PolymarketFetcher()
     print(f"[polymarket] Polling token_id={token_id} every {interval}s")
     print("Press Ctrl+C to stop.\n")
@@ -57,6 +62,13 @@ def poll_polymarket(token_id: str, interval: float, storage):
 
 
 def poll_kalshi(ticker: str, interval: float, storage):
+    try:
+        from backend.fetchers.kalshi import KalshiFetcher
+    except ImportError as exc:
+        raise RuntimeError(
+            "Kalshi fetcher is missing. Add backend/fetchers/kalshi.py"
+        ) from exc
+
     fetcher = KalshiFetcher()
     # No login needed for read-only endpoints (orderbook, markets)
 

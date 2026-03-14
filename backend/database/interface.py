@@ -1,11 +1,13 @@
 import os
 import csv
-import time
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import List, Optional
 
-import psycopg2
-import psycopg2.extras
+try:
+    import psycopg2
+    import psycopg2.extras
+except ImportError:
+    psycopg2 = None
 from dotenv import load_dotenv
 
 from backend.models.schema import Tick, MarketMetadata
@@ -31,6 +33,10 @@ class DatabaseInterface:
         self._conn = None
 
     def connect(self):
+        if psycopg2 is None:
+            raise RuntimeError(
+                "psycopg2 is not installed. Install it to use PostgreSQL storage."
+            )
         if self._conn is None or self._conn.closed:
             self._conn = psycopg2.connect(**self.db_config)
             self._conn.autocommit = False
@@ -116,7 +122,7 @@ class DatabaseInterface:
             )
         conn.commit()
 
-    def get_ticks(self, token_id: str, since: datetime = None,
+    def get_ticks(self, token_id: str, since: Optional[datetime] = None,
                   limit: int = 10000) -> List[dict]:
         conn = self.connect()
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
