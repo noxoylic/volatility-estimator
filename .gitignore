@@ -10,3 +10,14 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
+
+# Python artifacts
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Data / outputs
+out/
+*.csv
+
